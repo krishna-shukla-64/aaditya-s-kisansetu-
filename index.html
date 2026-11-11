@@ -26,146 +26,138 @@
     <div id="infoBox" class="info-box" aria-hidden="true"></div>
 
     <script>
-    
+
         // Content for each hover box.
-// Values are sample/placeholder text - replace with real data later.
-// Each heading has an "href": change it to the page you want that heading to open.
-const INFO = {
-  crop: {
-    icon: "🌾",
-    title: "Your Crop",
-    place: "right",
-    sections: [
-      { heading: "Crop Health", href: "#crop-health", items: ["Condition: Healthy", "Growth stage: Flowering", "No pest alert today"] },
-      { heading: "Which Crop To Grow", href: "#which-crop", items: ["Rabi season: Wheat, Mustard, Gram", "Suited to your soil: Wheat"] },
-      { heading: "Selling Well In Market", href: "#selling-well", items: ["Wheat - high demand", "Mustard - rising prices", "Potato - steady demand"] }
-    ]
-  },
+        // Values are sample/placeholder text - replace with real data later.
+        // Each heading has an "href": change it to the page you want that heading to open.
+        const INFO = {
+            crop: {
+                icon: "🌾",
+                title: "Your Crop",
+                sections: [
+                    { heading: "Crop Health", href: "#crop-health", items: ["Condition: Healthy", "Growth stage: Flowering", "No pest alert today"] },
+                    { heading: "Which Crop To Grow", href: "#which-crop", items: ["Rabi season: Wheat, Mustard, Gram", "Suited to your soil: Wheat"] },
+                    { heading: "Selling Well In Market", href: "#selling-well", items: ["Wheat - high demand", "Mustard - rising prices", "Potato - steady demand"] }
+                ]
+            },
 
-  cloud: {
-    icon: "⛅",
-    title: "Weather & Forecast",
-    place: "below",
-    sections: [
-      { heading: "Today's Weather", href: "#weather", items: ["Mostly cloudy, 26°C", "Humidity: 58%"] },
-      { heading: "Forecast (3 Days)", href: "#forecast", items: ["Tomorrow: Sunny, 28°C", "Day 2: Light rain, 24°C", "Day 3: Clear, 27°C"] },
-      { heading: "Farming Advice", href: "#weather-advice", items: ["Good day for sowing", "Delay spraying if rain expected"] }
-    ]
-  },
+            cloud: {
+                icon: "⛅",
+                title: "Weather & Forecast",
+                sections: [
+                    { heading: "Today's Weather", href: "#weather", items: ["Mostly cloudy, 26°C", "Humidity: 58%"] },
+                    { heading: "Forecast (3 Days)", href: "#forecast", items: ["Tomorrow: Sunny, 28°C", "Day 2: Light rain, 24°C", "Day 3: Clear, 27°C"] },
+                    { heading: "Farming Advice", href: "#weather-advice", items: ["Good day for sowing", "Delay spraying if rain expected"] }
+                ]
+            },
 
-  building: {
-    icon: "🏢",
-    title: "Market & Mandi",
-    place: "right",
-    sections: [
-      { heading: "Where To Sell Your Crop", href: "#where-to-sell", items: ["Nearest mandi", "Government procurement centres", "Direct buyers / FPOs"] },
-      { heading: "Mandi Rates", href: "#mandi-rates", items: ["Wheat: ₹2,425 / quintal", "Mustard: ₹5,650 / quintal", "Rice: ₹2,300 / quintal"] },
-      { heading: "Cheap Fertiliser Rates", href: "#fertiliser-rates", items: ["Urea (45 kg): ₹267", "DAP (50 kg): ₹1,350", "Potash (50 kg): ₹1,700"] },
-      { heading: "More Services", href: "#more", items: ["Government schemes", "Crop insurance", "Storage & transport"] }
-    ]
-  },
+            building: {
+                icon: "🏢",
+                title: "Market & Mandi",
+                sections: [
+                    { heading: "Where To Sell Your Crop", href: "#where-to-sell", items: ["Nearest mandi", "Government procurement centres", "Direct buyers / FPOs"] },
+                    { heading: "Mandi Rates", href: "#mandi-rates", items: ["Wheat: ₹2,425 / quintal", "Mustard: ₹5,650 / quintal", "Rice: ₹2,300 / quintal"] },
+                    { heading: "Cheap Fertiliser Rates", href: "#fertiliser-rates", items: ["Urea (45 kg): ₹267", "DAP (50 kg): ₹1,350", "Potash (50 kg): ₹1,700"] },
+                    { heading: "More Services", href: "#more", items: ["Government schemes", "Crop insurance", "Storage & transport"] }
+                ]
+            },
 
-  soil: {
-    icon: "🪱",
-    title: "Soil Report",
-    place: "above",
-    sections: [
-      { heading: "Soil Health", href: "#soil-health", items: ["Overall: Good", "Nitrogen: Medium, Phosphorus: Low"] },
-      { heading: "Acidity Level", href: "#acidity", items: ["pH 6.8 - Near neutral"] },
-      { heading: "Humification Level", href: "#humification", items: ["Organic matter: Moderate", "Add compost to improve"] }
-    ]
-  },
+            soil: {
+                icon: "🪱",
+                title: "Soil Report",
+                sections: [
+                    { heading: "Soil Health", href: "#soil-health", items: ["Overall: Good", "Nitrogen: Medium, Phosphorus: Low"] },
+                    { heading: "Acidity Level", href: "#acidity", items: ["pH 6.8 - Near neutral"] },
+                    { heading: "Humification Level", href: "#humification", items: ["Organic matter: Moderate", "Add compost to improve"] }
+                ]
+            },
 
-  assistant: {
-    icon: "👋",
-    title: "Namaste, Kisan Mitra!",
-    place: "left",
-    intro: "Hello! I'm your Kisan Setu assistant. I can help you with crop health, weather, mandi rates, soil reports and more. Just hover over anything on the farm to explore, or ask me whatever you need!"
-  }
-};
+            assistant: {
+                icon: "👋",
+                title: "Namaste, Kisan Mitra!",
+                intro: "Hello! I'm your Kisan Setu assistant. I can help you with crop health, weather, mandi rates, soil reports and more. Just hover over anything on the farm to explore, or ask me whatever you need!"
+            }
+        };
 
-const box = document.getElementById("infoBox");
-const GAP = 8;          // small gap between image and box
-const HIDE_DELAY = 250; // ms the box stays after the mouse leaves, so you can move onto it
-let hideTimer = null;
+        const box = document.getElementById("infoBox");
+        const OFFSET = 16;      // distance between the entry point and the box
+        const HIDE_DELAY = 250; // ms the box stays after the mouse leaves, so you can move onto it
+        let hideTimer = null;
 
-function buildHTML(data) {
-  let html = `<div class="info-title"><span class="icon">${data.icon}</span><span>${data.title}</span></div>`;
-  html += `<div class="info-body">`;
+        function buildHTML(data) {
+            let html = `<div class="info-title"><span class="icon">${data.icon}</span><span>${data.title}</span></div>`;
+            html += `<div class="info-body">`;
 
-  if (data.intro) {
-    html += `<p class="info-intro">${data.intro}</p>`;
-  }
+            if (data.intro) {
+                html += `<p class="info-intro">${data.intro}</p>`;
+            }
 
-  if (data.sections) {
-    data.sections.forEach(function (s) {
-      html += `<div class="info-section"><h4><a href="${s.href || '#'}">${s.heading}</a></h4><ul>`;
-      s.items.forEach(function (item) {
-        html += `<li>${item}</li>`;
-      });
-      html += `</ul></div>`;
-    });
-  }
+            if (data.sections) {
+                data.sections.forEach(function (s) {
+                    html += `<div class="info-section"><h4><a href="${s.href || '#'}">${s.heading}</a></h4><ul>`;
+                    s.items.forEach(function (item) {
+                        html += `<li>${item}</li>`;
+                    });
+                    html += `</ul></div>`;
+                });
+            }
 
-  html += `</div>`;
-  return html;
-}
+            html += `</div>`;
+            return html;
+        }
 
-// Place the box next to the image (fixed spot, does not follow the cursor)
-function placeBox(img, place) {
-  const r = img.getBoundingClientRect();
-  const w = box.offsetWidth;
-  const h = box.offsetHeight;
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  let x, y;
+        // Place the box next to the point where the mouse first entered the image.
+        // It stays at that spot (does not follow the cursor) and zooms up from that point.
+        function placeBox(px, py) {
+            const w = box.offsetWidth;
+            const h = box.offsetHeight;
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
 
-  if (place === "below") {
-    x = r.left + r.width / 2 - w / 2;
-    y = r.bottom + GAP;
-  } else if (place === "above") {
-    x = r.left + r.width / 2 - w / 2;
-    y = r.top - h - GAP;
-  } else if (place === "left") {
-    x = r.left - w - GAP;
-    y = r.top + r.height / 2 - h / 2;
-  } else { // right
-    x = r.right + GAP;
-    y = r.top + r.height / 2 - h / 2;
-  }
+            // default: to the right and below the entry point; flip if there's no room
+            let x = px + OFFSET;
+            let y = py + OFFSET;
+            if (x + w > vw - 10) x = px - w - OFFSET;
+            if (y + h > vh - 10) y = py - h - OFFSET;
 
-  // keep inside the screen
-  x = Math.max(10, Math.min(x, vw - w - 10));
-  y = Math.max(10, Math.min(y, vh - h - 10));
+            x = Math.max(10, Math.min(x, vw - w - 10));
+            y = Math.max(10, Math.min(y, vh - h - 10));
 
-  box.style.left = x + "px";
-  box.style.top = y + "px";
-}
+            box.style.left = x + "px";
+            box.style.top = y + "px";
 
-function showBox(img) {
-  const data = INFO[img.dataset.info];
-  if (!data) return;
-  clearTimeout(hideTimer);
-  box.innerHTML = buildHTML(data);
-  placeBox(img, data.place);
-  box.classList.add("show");
-}
+            // zoom grows out of the entry point
+            box.style.transformOrigin = (px - x) + "px " + (py - y) + "px";
+        }
 
-function hideBoxSoon() {
-  clearTimeout(hideTimer);
-  hideTimer = setTimeout(function () {
-    box.classList.remove("show");
-  }, HIDE_DELAY);
-}
+        function showBox(img, e) {
+            const data = INFO[img.dataset.info];
+            if (!data) return;
+            clearTimeout(hideTimer);
 
-document.querySelectorAll(".hoverable").forEach(function (el) {
-  el.addEventListener("mouseenter", function () { showBox(el); });
-  el.addEventListener("mouseleave", hideBoxSoon);
-});
+            // restart the zoom animation every time (also when moving between images)
+            box.classList.remove("show");
+            box.innerHTML = buildHTML(data);
+            placeBox(e.clientX, e.clientY);
+            void box.offsetWidth; // force reflow so the transition replays
+            box.classList.add("show");
+        }
 
-// keep the box open while the mouse is on it (so headings can be clicked)
-box.addEventListener("mouseenter", function () { clearTimeout(hideTimer); });
-box.addEventListener("mouseleave", hideBoxSoon);
+        function hideBoxSoon() {
+            clearTimeout(hideTimer);
+            hideTimer = setTimeout(function () {
+                box.classList.remove("show");
+            }, HIDE_DELAY);
+        }
+
+        document.querySelectorAll(".hoverable").forEach(function (el) {
+            el.addEventListener("mouseenter", function (e) { showBox(el, e); });
+            el.addEventListener("mouseleave", hideBoxSoon);
+        });
+
+        // keep the box open while the mouse is on it (so headings can be clicked)
+        box.addEventListener("mouseenter", function () { clearTimeout(hideTimer); });
+        box.addEventListener("mouseleave", hideBoxSoon);
     </script>
 </body>
 

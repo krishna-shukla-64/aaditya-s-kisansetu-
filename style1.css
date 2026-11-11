@@ -99,8 +99,9 @@ body {
   max-width: 90vw;
   pointer-events: none;           /* never blocks the images underneath */
   opacity: 0;
-  transform: translateY(8px) scale(0.97);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: scale(0.3);          /* starts small, zooms up from the entry point */
+  transition: opacity 0.3s ease,
+              transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 
   background: linear-gradient(180deg, #fdf6e3 0%, #f3e8c8 100%);
   color: #3b2a1a;
@@ -113,7 +114,7 @@ body {
 
 .info-box.show {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: scale(1);
   pointer-events: auto;           /* box can be hovered and its headings clicked */
 }
 
