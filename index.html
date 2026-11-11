@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KISAN SETU</title>
+    <title>Dharti AI</title>
 
-    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -84,8 +84,15 @@
         const HIDE_DELAY = 250; // ms the box stays after the mouse leaves, so you can move onto it
         let hideTimer = null;
 
+        // Phones, tablets and narrow windows: tap to open, info shows as a bottom sheet.
+        // Desktop with a mouse: hover to open (as before).
+        const sheetQuery = window.matchMedia("(max-width: 768px), (hover: none)");
+        function isSheetMode() {
+            return sheetQuery.matches;
+        }
+
         function buildHTML(data) {
-            let html = `<div class="info-title"><span class="icon">${data.icon}</span><span>${data.title}</span></div>`;
+            let html = `<div class="info-title"><span class="icon">${data.icon}</span><span>${data.title}</span><button type="button" class="info-close" aria-label="Close">✕</button></div>`;
             html += `<div class="info-body">`;
 
             if (data.intro) {
@@ -138,7 +145,7 @@
             // restart the zoom animation every time (also when moving between images)
             box.classList.remove("show");
             box.innerHTML = buildHTML(data);
-            placeBox(e.clientX, e.clientY);
+            if (!isSheetMode()) placeBox(e.clientX, e.clientY);
             void box.offsetWidth; // force reflow so the transition replays
             box.classList.add("show");
         }
@@ -150,14 +157,50 @@
             }, HIDE_DELAY);
         }
 
+        function hideNow() {
+            clearTimeout(hideTimer);
+            box.classList.remove("show");
+        }
+
         document.querySelectorAll(".hoverable").forEach(function (el) {
-            el.addEventListener("mouseenter", function (e) { showBox(el, e); });
-            el.addEventListener("mouseleave", hideBoxSoon);
+            // desktop: hover
+            el.addEventListener("mouseenter", function (e) {
+                if (isSheetMode()) return;
+                showBox(el, e);
+            });
+            el.addEventListener("mouseleave", function () {
+                if (isSheetMode()) return;
+                hideBoxSoon();
+            });
+
+            // mobile / tablet: tap
+            el.addEventListener("click", function (e) {
+                if (!isSheetMode()) return;
+                e.stopPropagation();
+                showBox(el, e);
+            });
         });
 
         // keep the box open while the mouse is on it (so headings can be clicked)
-        box.addEventListener("mouseenter", function () { clearTimeout(hideTimer); });
-        box.addEventListener("mouseleave", hideBoxSoon);
+        box.addEventListener("mouseenter", function () {
+            if (!isSheetMode()) clearTimeout(hideTimer);
+        });
+        box.addEventListener("mouseleave", function () {
+            if (!isSheetMode()) hideBoxSoon();
+        });
+
+        // close button (mobile)
+        box.addEventListener("click", function (e) {
+            if (e.target.closest(".info-close")) hideNow();
+        });
+
+        // tap anywhere outside the box closes it (mobile)
+        document.addEventListener("click", function (e) {
+            if (isSheetMode() && !box.contains(e.target)) hideNow();
+        });
+
+        // close if the screen size / orientation changes
+        window.addEventListener("resize", hideNow);
     </script>
 </body>
 
